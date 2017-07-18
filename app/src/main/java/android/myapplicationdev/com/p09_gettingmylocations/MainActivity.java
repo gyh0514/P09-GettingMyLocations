@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements
 
     String folderLocation;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnCheck = (Button) findViewById(R.id.btnRecords);
+
+
 
         folderLocation = Environment.getExternalStorageDirectory()
                 .getAbsolutePath() + "/Test";
@@ -89,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
 
-                final LatLng poi_north = new LatLng(1.354489, 103.850985);
+                final LatLng poi_north = new LatLng(0.0,0.0);
 
                 UiSettings ui = map.getUiSettings();
                 ui.setCompassEnabled(true);
@@ -134,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, MyService.class);
+                i.putExtra("lat", 0.0);
+                i.putExtra("lng", 0.0);
                 startService(i);
             }
         });
@@ -204,8 +210,11 @@ public class MainActivity extends AppCompatActivity implements
         if (mLocation != null) {
             Toast.makeText(this, "Lat : " + mLocation.getLatitude() + " Lng : " + mLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             tv.setText("Last known location when this Activity started:");
-            tvLat.setText("Latitude: " + mLocation.getLatitude());
-            tvLng.setText("Longitude: " + mLocation.getLongitude());
+
+            double updateLat = mLocation.getLatitude();
+            double updateLng = mLocation.getLongitude();
+            tvLat.setText("Latitude: " + updateLat);
+            tvLng.setText("Longitude: " + updateLng);
 
         } else {
             Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();
@@ -252,5 +261,11 @@ public class MainActivity extends AppCompatActivity implements
             Toast.makeText(MainActivity.this, "Failed to write!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+
+        Intent i = new Intent(MainActivity.this, MyService.class);
+        i.putExtra("lat", location.getLatitude());
+        i.putExtra("lng", location.getLongitude());
+        startService(i);
+
     }
 }

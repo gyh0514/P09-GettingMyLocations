@@ -25,11 +25,15 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
+
+
         if (started == false){
             started = true;
             Log.d("Service", "Started");
         } else {
-            Log.d("Service", "Still running");
+            double lat = (double) intent.getExtras().get("lat");
+            double lng = (double) intent.getExtras().get("lng");
+            Log.d("Service", lat + " ," + lng);
         }
 
 
