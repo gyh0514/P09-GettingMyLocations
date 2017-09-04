@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements
 
     String folderLocation;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnCheck = (Button) findViewById(R.id.btnRecords);
-
 
 
         folderLocation = Environment.getExternalStorageDirectory()
@@ -250,22 +247,7 @@ public class MainActivity extends AppCompatActivity implements
         tvCurrLat.setText("Latitude: " + location.getLatitude());
         tvCurrLng.setText("Longitude: " + location.getLongitude());
 
-        File targetFile = new File(folderLocation, "data.txt");
 
-        try {
-            FileWriter writer = new FileWriter(targetFile, true);
-            writer.write(location.getLatitude() + ", " + location.getLongitude() + "\n");
-            writer.flush();
-            writer.close();
-        } catch (Exception e){
-            Toast.makeText(MainActivity.this, "Failed to write!", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-
-        Intent i = new Intent(MainActivity.this, MyService.class);
-        i.putExtra("lat", location.getLatitude());
-        i.putExtra("lng", location.getLongitude());
-        startService(i);
 
     }
 }
